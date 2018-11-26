@@ -164,7 +164,7 @@ func (r *Router) find(method, path string, pvalues []string) (handlers []Handler
 	return r.notFoundHandlers, pnames
 }
 
-func (r *Router) findAllowedMethods(path string) map[string]bool {
+func (r *Router) FindAllowedMethods(path string) map[string]bool {
 	methods := make(map[string]bool)
 	pvalues := make([]string, r.maxParams)
 	for m, store := range r.stores {
@@ -196,7 +196,7 @@ func NotFoundHandler(*Context) error {
 // In this case, the handler will respond with an Allow HTTP header listing the allowed HTTP methods.
 // Otherwise, the handler will do nothing and let the next handler (usually a NotFoundHandler) to handle the problem.
 func MethodNotAllowedHandler(c *Context) error {
-	methods := c.Router().findAllowedMethods(c.Request.URL.Path)
+	methods := c.Router().FindAllowedMethods(c.Request.URL.Path)
 	if len(methods) == 0 {
 		return nil
 	}
